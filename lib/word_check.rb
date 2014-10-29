@@ -1,29 +1,12 @@
 module WordCheck
   class WordCheck
 
-    SWEARWORDS = [
-      "shit",
-      "piss",
-      "fuck",
-      "cunt",
-      "cocksucker",
-      "tits",
-      "bitch",
-      "asshole",
-      "crap"
-    ]
+    SWEARWORDS = %w(shit piss fuck cunt cocksucker tits bitch asshole crap)
 
-    COMMONWORDS = [
-      "the","be","to","of","and","a","in","that","have","i","it","for","not","on","with","he",
-      "as","you","do","at","this","but","his","by","from","they","we","say","her","she","or","most",
-      "an","will","my","one","all","would","there","their","what","so","up","out","if","about","us",
-      "who","get","which","go","me","when","make","can","like","time","no","just","him","know",
-      "take","people","into","year","your","good","some","could","them","see","other","than","day",
-      "then","now","look","only","come","its","over","think","also","back","after","use","two",
-      "how","our","work","first","well","way","even","new","want","because","any","these","give",
-      "is","was","are","don't","i'm","got","u","has","it's","still","should","too","am",
-      "had","you're","were","last","said","did","off","been","n","much","being"
-    ]
+    COMMONWORDS = %w(el que y Y de la en lo q es a no d me con No un por si del se para Pero los
+                     al esta bueno t Pero ha o ya Ya muy le bien Pero ver mas he te hay una
+                     1 2 3 4 5 6 7 8 9 0 Pero tiene las Yo yo va dos eso hoy digo Como como
+                     ok OK Ok creo Voy voy sale ser nos media-omitted)
 
     def self.count_for_user(word, line, user)
       (line.downcase.include?(word.downcase) && line.downcase.include?(user.downcase))? 1 : 0
@@ -35,7 +18,8 @@ module WordCheck
         line = line.gsub(/(\d{2}:\d{2},\s\d{2}\s\w{3}\s-\s)([^:]+)/) {"#{$2.capitalize}"}
         line = line.gsub(/^.+:/,'')
         line = line.gsub(/\n/,"")
-        line = line.gsub("<Media omitted>","media-omitted")
+        line = line.gsub('<Media omitted>', 'media-omitted')
+        line = line.gsub('<Archivo omitido>', 'media-omitted')
         split_up = line.split(" ") if line
         huge_array << split_up if split_up.length > 0
       end
